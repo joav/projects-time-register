@@ -2,13 +2,23 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
+import { LastProjectsComponent } from './last-projects/last-projects.component';
+import { OpenProjectsComponent } from './open-projects/open-projects.component';
+import { BoxesModule } from './boxes/boxes.module';
+import { ProjectComponent } from './project/project.component';
+import { RegProjectComponent } from './reg-project/reg-project.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+	AppComponent,
+	LastProjectsComponent,
+	OpenProjectsComponent,
+	ProjectComponent,
+	RegProjectComponent
   ],
   imports: [
-    BrowserModule
+	BrowserModule,
+	BoxesModule
   ],
   providers: [],
   bootstrap: [AppComponent]
