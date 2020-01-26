@@ -7,6 +7,11 @@ import { OpenProjectsComponent } from './open-projects/open-projects.component';
 import { BoxesModule } from './boxes/boxes.module';
 import { ProjectComponent } from './project/project.component';
 import { RegProjectComponent } from './reg-project/reg-project.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModule } from './material.module';
+import { ActionsComponent } from './actions/actions.component';
+import { NgScrollbarModule } from "ngx-scrollbar";
+
 
 @NgModule({
   declarations: [
@@ -14,11 +19,15 @@ import { RegProjectComponent } from './reg-project/reg-project.component';
 	LastProjectsComponent,
 	OpenProjectsComponent,
 	ProjectComponent,
-	RegProjectComponent
+	RegProjectComponent,
+	ActionsComponent
   ],
   imports: [
 	BrowserModule,
-	BoxesModule
+	BoxesModule,
+	BrowserAnimationsModule,
+	MaterialModule,
+	NgScrollbarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

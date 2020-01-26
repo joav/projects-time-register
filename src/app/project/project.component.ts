@@ -1,5 +1,6 @@
 import { Component, Input } from "@angular/core";
 import { Project } from '../models/project';
+import { RegProjectService } from '../reg-project.service';
 
 @Component({
 	selector: 'app-project',
@@ -8,5 +9,8 @@ import { Project } from '../models/project';
 })
 export class ProjectComponent {
 	@Input() project:Project;
-	constructor() { }
+	constructor(private regProjectServ:RegProjectService) { }
+	open(){
+		this.regProjectServ.projects.push(this.project);
+	}
 }

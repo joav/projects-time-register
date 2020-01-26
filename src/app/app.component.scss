@@ -1,0 +1,22 @@
+h1{
+	text-align: center;
+	margin-bottom: 15px;
+}
+main {
+	display: flex;
+	flex-direction: row;
+	.projects-viewer{
+		display: flex;
+		flex-direction: row;
+		width: calc(100% - 100px);
+		app-last-projects {
+			width: 40%;
+			border-right: 1px solid black;
+			padding: 0 10px;
+		}
+		app-open-projects {
+			width: 60%;
+			padding: 0 10px;
+		}
+	}
+}

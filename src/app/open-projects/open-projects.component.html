@@ -1,0 +1,8 @@
+<h3>Proyectos abiertos</h3>
+<div class="projects-scroll">
+	<ng-scrollbar>
+		<div class="projects">
+			<app-reg-project *ngFor="let project of regServ.projects" [project]="project"></app-reg-project>
+		</div>
+	</ng-scrollbar>
+</div>

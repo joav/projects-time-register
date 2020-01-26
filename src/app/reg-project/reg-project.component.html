@@ -1,0 +1,11 @@
+<div class="project">
+	<div class="project-info">
+		<span class="project-name">{{project.name}}</span> -
+		<small class="project-customer">{{project.customer.name}}</small>
+	</div>
+	<div class="btns">
+		<button mat-raised-button color="warn" [disabled]="paused" (click)="pause()">Detener</button>
+		<button mat-raised-button [disabled]="!paused" (click)="continue()">Continuar</button>
+		<button mat-raised-button color="primary">Registrar</button>
+	</div>
+</div>

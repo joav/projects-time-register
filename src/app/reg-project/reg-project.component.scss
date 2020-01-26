@@ -1,0 +1,8 @@
+.project > .btns {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	button {
+		margin: 0 5px;
+	}
+}

@@ -1,1 +1,29 @@
 /* You can add global styles to this file, and also import other style files */
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+.projects-scroll{
+	height: 500px;
+	div.projects {
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		align-items: flex-start;
+		width: 100%;
+		div.project {
+			display: flex;
+			flex-direction: row;
+			padding: 10px;
+			justify-content: space-between;
+			align-items: center;
+			border-bottom: 1px solid black;
+			.project-info {
+				padding-left: 20px;
+			}
+		}
+	}
+}

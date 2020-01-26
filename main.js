@@ -4,11 +4,14 @@ let win;
 
 function createWindow () {
 		// Create the browser window.
-		win = new BrowserWindow({
-		width: 600,
-		height: 600,
+	win = new BrowserWindow({
+		width: 950,
+		height: 700,
 		backgroundColor: '#ffffff',
-		icon: `file://${__dirname}/dist/assets/logo.png`
+		icon: `file://${__dirname}/dist/assets/logo.png`,
+		webPreferences: {
+			nodeIntegration: true
+		}
 	})
 
 
@@ -38,3 +41,42 @@ app.on('activate', function () {
 		createWindow()
 	}
 })
+
+async function createCustomer(customer){
+	return customer;
+};
+async function loadCustomers(){
+	return [];
+}
+async function loadProjects(){
+	return [
+		{
+			name: 'Proyecto 1',
+			path: './',
+			cmd: '',
+			customer: {
+				name: 'Cliente 1'
+			}
+		},
+		{
+			name: 'Proyecto 2',
+			path: './',
+			cmd: '',
+			customer: {
+				name: 'Cliente 1'
+			}
+		},
+	];
+}
+async function createProject(project){
+	return project;
+}
+async function newRegProject(project, regs){
+	return true;
+}
+
+exports.createCustomer = createCustomer;
+exports.loadCustomers = loadCustomers;
+exports.loadProjects = loadProjects;
+exports.createProject = createProject;
+exports.newRegProject = newRegProject;

@@ -1,0 +1,8 @@
+<h3>Tus proyectos</h3>
+<div class="projects-scroll">
+	<ng-scrollbar>
+		<div class="projects">
+			<app-project *ngFor="let project of projects" [project]="project"></app-project>
+		</div>
+	</ng-scrollbar>
+</div>
