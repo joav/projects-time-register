@@ -40,39 +40,55 @@ app.on('activate', function () {
 	if (win === null) {
 		createWindow()
 	}
-})
+});
+
+const ProjectsSdk = require('./projects-sdk');
+
+const sdk = new ProjectsSdk.new();
 
 async function createCustomer(customer){
-	return customer;
+	try {
+		return await sdk.createCustomer(customer);
+	} catch (error) {
+		console.log(error);
+		return null;
+	}
 };
+
 async function loadCustomers(){
-	return [];
+	try {
+		return await sdk.getCustomers();
+	} catch (error) {
+		console.log(error);
+		return [];
+	}
 }
 async function loadProjects(){
-	return [
-		{
-			name: 'Proyecto 1',
-			path: './',
-			cmd: '',
-			customer: {
-				name: 'Cliente 1'
-			}
-		},
-		{
-			name: 'Proyecto 2',
-			path: './',
-			cmd: '',
-			customer: {
-				name: 'Cliente 1'
-			}
-		},
-	];
+	try {
+		return await sdk.getProjects();
+	} catch (error) {
+		console.log(error);
+		return [];
+	}
 }
 async function createProject(project){
-	return project;
+	try {
+		return await sdk.createProject(project);
+	} catch (error) {
+		console.log(error);
+		return null;
+	}
 }
 async function newRegProject(project, regs){
-	return true;
+	try {
+		return await sdk.regProject({
+			project: project,
+			regs: regs
+		});
+	} catch (error) {
+		console.log(error);
+		return false;
+	}
 }
 
 exports.createCustomer = createCustomer;
