@@ -2,7 +2,7 @@
 <div class="projects-scroll">
 	<ng-scrollbar>
 		<div class="projects">
-			<app-reg-project *ngFor="let project of regServ.openProjects" [project]="project"></app-reg-project>
+			<app-reg-project *ngFor="let project of regServ.openProjects; let i = index;" [project]="project" (saved)="remove(i)"></app-reg-project>
 		</div>
 	</ng-scrollbar>
 </div>

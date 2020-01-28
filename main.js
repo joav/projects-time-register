@@ -1,7 +1,8 @@
-const { app, BrowserWindow, dialog } = require('electron')
+const { app, BrowserWindow, dialog, ipcMain } = require('electron')
 const { exec } = require('child_process');
 
 let win;
+let status = 0;
 
 function createWindow () {
 		// Create the browser window.
@@ -19,8 +20,11 @@ function createWindow () {
 	win.loadURL(`file://${__dirname}/dist/index.html`)
 
 	// Event when the window is closed.
-	win.on('closed', function () {
-		win = null
+	win.on('closed', function (e) {
+		if(status == 0 && win){
+			e.preventDefault();
+			win.webContents.send('close');
+		}
 	})
 }
 
@@ -42,6 +46,14 @@ app.on('activate', function () {
 		createWindow()
 	}
 });
+
+ipcMain.on('closed', ()=>{
+	status = 1;
+	win = null;
+	if (process.platform !== 'darwin') {
+		app.quit();
+	}
+})
 
 const ProjectsSdk = require('./projects-sdk');
 

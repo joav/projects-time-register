@@ -6,6 +6,6 @@
 	<div class="btns">
 		<button mat-raised-button color="warn" [disabled]="paused" (click)="pause()">Detener</button>
 		<button mat-raised-button [disabled]="!paused" (click)="continue()">Continuar</button>
-		<button mat-raised-button color="primary">Registrar</button>
+		<button mat-raised-button color="primary" (click)="save()">Registrar</button>
 	</div>
 </div>
