@@ -1,10 +1,10 @@
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
-const creationQuery = `CREATE TABLE IF NOT EXISTS customers (
+const creationQueryCustomers = `CREATE TABLE IF NOT EXISTS customers (
 	id INTEGER PRIMARY KEY AUTOINCREMENT,
 	name TEXT
-);
-CREATE TABLE IF NOT EXISTS projects (
+);`;
+const creationQueryProjects = `CREATE TABLE IF NOT EXISTS projects (
 	id INTEGER PRIMARY KEY AUTOINCREMENT,
 	name TEXT,
 	customer INTEGER,
@@ -15,8 +15,8 @@ CREATE TABLE IF NOT EXISTS projects (
 		REFERENCES customers (id)
 			ON DELETE CASCADE
 			ON UPDATE NO ACTION
-);
-CREATE TABLE IF NOT EXISTS reg_times (
+);`;
+const creationQueryRegs = `CREATE TABLE IF NOT EXISTS reg_times (
 	id INTEGER PRIMARY KEY AUTOINCREMENT,
 	project INTEGER,
 	time INTEGER,
@@ -29,11 +29,21 @@ CREATE TABLE IF NOT EXISTS reg_times (
 
 class ProjectsSDK {
 	fs = require('fs');
-	db = new sqlite3.Database('projects', this.onOpen.bind(this));
+	db = new sqlite3.Database('projects.db', this.onOpen.bind(this));
 	projects = [];
 	constructor(){
 		this.db.serialize(()=>{
-			this.db.run(creationQuery, (r, err) => {
+			this.db.run(creationQueryCustomers, (r, err) => {
+				if(err){
+					this.log(err);
+				}
+			});
+			this.db.run(creationQueryProjects, (r, err) => {
+				if(err){
+					this.log(err);
+				}
+			});
+			this.db.run(creationQueryRegs, (r, err) => {
 				if(err){
 					this.log(err);
 				}
@@ -86,7 +96,7 @@ class ProjectsSDK {
 	getProjects(){
 		return new Promise((resolve, reject)=>{
 			this.db.serialize(() => {
-				this.db.all('SELECT *, c.name as cname from projects as p inner join customers as c on(c.id = p.customer) order by p.modified DESC', (err, rows) => {
+				this.db.all('SELECT p.name as name, p.id as id, p.path as path, p.cmd as cmd, c.name as cname from projects as p inner join customers as c on(c.id = p.customer) order by p.modified DESC', (err, rows) => {
 					if(err){
 						this.log(err);
 						reject(err);

@@ -11,6 +11,7 @@ export class ProjectComponent {
 	@Input() project:Project;
 	constructor(private regProjectServ:RegProjectService) { }
 	open(){
-		this.regProjectServ.projects.push(this.project);
+		this.regProjectServ.main.openProject(this.project);
+		this.regProjectServ.openProjects.push(this.project);
 	}
 }

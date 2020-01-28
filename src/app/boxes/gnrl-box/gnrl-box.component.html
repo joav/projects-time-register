@@ -1,0 +1,7 @@
+<h1 mat-dialog-title *ngIf="info.title">{{info.title}}</h1>
+<div mat-dialog-content *ngIf="info.desc">
+	{{info.desc}}
+</div>
+<div mat-dialog-actions>
+	<button mat-raised-button (click)="onClick()" color="primary">Continuar</button>
+</div>

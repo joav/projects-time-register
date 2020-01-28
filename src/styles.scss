@@ -29,3 +29,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 		}
 	}
 }
+
+.mat-dialog-container {
+	min-width: 500px;
+	.mat-form-field {
+		width: 100%;
+	}
+}

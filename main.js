@@ -1,4 +1,5 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, dialog } = require('electron')
+const { exec } = require('child_process');
 
 let win;
 
@@ -48,40 +49,40 @@ const sdk = new ProjectsSdk.new();
 
 async function createCustomer(customer){
 	try {
-		return await sdk.createCustomer(customer);
+		return await (new ProjectsSdk.new()).createCustomer(customer);
 	} catch (error) {
-		console.log(error);
+		console.log('creac-cliente',error);
 		return null;
 	}
 };
 
 async function loadCustomers(){
 	try {
-		return await sdk.getCustomers();
+		return await (new ProjectsSdk.new()).getCustomers();
 	} catch (error) {
-		console.log(error);
+		console.log('load-clientes',error);
 		return [];
 	}
 }
 async function loadProjects(){
 	try {
-		return await sdk.getProjects();
+		return await (new ProjectsSdk.new()).getProjects();
 	} catch (error) {
-		console.log(error);
+		console.log('load-p',error);
 		return [];
 	}
 }
 async function createProject(project){
 	try {
-		return await sdk.createProject(project);
+		return await (new ProjectsSdk.new()).createProject(project);
 	} catch (error) {
-		console.log(error);
+		console.log('creat-p',error);
 		return null;
 	}
 }
 async function newRegProject(project, regs){
 	try {
-		return await sdk.regProject({
+		return await (new ProjectsSdk.new()).regProject({
 			project: project,
 			regs: regs
 		});
@@ -91,8 +92,51 @@ async function newRegProject(project, regs){
 	}
 }
 
+exports.selectDir = function selectDir() {
+	return dialog.showOpenDialog(win, {
+		properties: ['openDirectory']
+	});
+}
+
+/**
+ * Open a project
+ * @param {Project} project The project to open
+ */
+function openProject(project) {
+	if(/code/.test(project.cmd)){
+		exec(project.cmd + ' ' + project.path);
+	}else{
+		let cmd = '';
+		switch(process.platform){
+			case 'darwin': cmd = 'open';break;
+			case 'win32': case 'win64': cmd = 'start';break;
+			default: cmd = 'xdg-open';break;
+		}
+		dialog.showOpenDialog(win, {
+			properties: ['openFile']
+		}).then(r=>{
+			if(!r.canceled){
+				exec(cmd + ' ' + r.filePaths[0]);
+			}
+		})
+	}
+}
+
+exports.openProject = openProject;
+
 exports.createCustomer = createCustomer;
 exports.loadCustomers = loadCustomers;
 exports.loadProjects = loadProjects;
 exports.createProject = createProject;
 exports.newRegProject = newRegProject;
+
+/**
+ * @typedef Project
+ * @type {object}
+ * @property {number} id
+ * @property {string} name
+ * @property {string} path
+ * @property {string} cmd
+ * @property {string} modified
+ * @property {Customer} customer
+ */

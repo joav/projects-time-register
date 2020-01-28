@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>Nuevo cliente</h1>
+<div mat-dialog-content>
+	<div>
+		<mat-form-field>
+			<input name="name" id="c-name" matInput [(ngModel)]="customer.name" placeholder="Nombre del cliente">
+		</mat-form-field>
+	</div>
+</div>
+<div mat-dialog-actions>
+	<button mat-raised-button (click)="save()" color="primary">Crear</button>
+</div>

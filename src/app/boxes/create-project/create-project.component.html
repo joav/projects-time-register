@@ -1,0 +1,26 @@
+<h1 mat-dialog-title>Nuevo proyecto</h1>
+<div mat-dialog-content [formGroup]="form">
+	<mat-form-field>
+		<mat-label>Nombre del proyecto</mat-label>
+		<input name="name" id="c-name" matInput formControlName="name">
+		<mat-error *ngIf="form.controls.name.hasError('required')">* Debe agregar un nombre de projecto</mat-error>
+	</mat-form-field>
+	<br>
+	<mat-form-field>
+		<mat-label>Cliente</mat-label>
+		<mat-select formControlName="customer">
+			<mat-option *ngFor="let customer of customers" [value]="customer">{{customer.name}}</mat-option>
+		</mat-select>
+		<mat-error *ngIf="form.controls.customer.hasError('required')">* Debe selecionar un cliente</mat-error>
+	</mat-form-field>
+	<br>
+	<mat-form-field>
+		<mat-label>
+			Carpeta del proyecto
+		</mat-label>
+		<input type="text" matInput readonly formControlName="path" (click)="selectDir()">
+	</mat-form-field>
+</div>
+<div mat-dialog-actions>
+	<button mat-raised-button (click)="save()" color="primary">Crear</button>
+</div>

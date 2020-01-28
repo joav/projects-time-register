@@ -9,8 +9,11 @@ import { RegTime } from './models/reg-time';
 export class RegProjectService {
 	main:Main;
 	constructor() {
+		this.init();
+		this.main.loadProjects().then(p => this.projects = p);
 	}
 	projects:Project[] = [];
+	openProjects:Project[] = [];
 	init(){
 		this.main = (window as any).ptrMainProc;
 	}
@@ -22,4 +25,6 @@ export interface Main {
 	loadProjects:()=>Promise<Project[]>;
 	createProject:(project:Project)=>Promise<Project>;
 	newRegProject:(project:Project, regs:RegTime[])=>Promise<boolean>;
+	selectDir:()=>Promise<{canceled:boolean; filePaths:string[]; bookmarks?:string[];}>
+	openProject:(project:Project)=>void;
 }

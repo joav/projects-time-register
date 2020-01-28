@@ -1,2 +1,2 @@
 const { remote } = require('electron');
-const ptrMainProc = remote.require('./main.js');
+window.ptrMainProc = remote.require('./main.js');
