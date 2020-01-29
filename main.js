@@ -21,9 +21,8 @@ function createWindow () {
 
 	// Event when the window is closed.
 	win.on('closed', function (e) {
-		if(status == 0 && win){
-			e.preventDefault();
-			win.webContents.send('close');
+		if(status == 1){
+			win = null;
 		}
 	})
 }
@@ -46,14 +45,6 @@ app.on('activate', function () {
 		createWindow()
 	}
 });
-
-ipcMain.on('closed', ()=>{
-	status = 1;
-	win = null;
-	if (process.platform !== 'darwin') {
-		app.quit();
-	}
-})
 
 const ProjectsSdk = require('./projects-sdk');
 
@@ -104,6 +95,15 @@ async function newRegProject(project, regs){
 	}
 }
 
+async function getReport(dateInit = null, dateFinal = null, num = 0) {
+	try {
+		return await (new ProjectsSdk.new()).getReg(dateInit, dateFinal, num);
+	} catch (error) {
+		console.log(error);
+		return [];
+	}
+}
+
 exports.selectDir = function selectDir() {
 	return dialog.showOpenDialog(win, {
 		properties: ['openDirectory']
@@ -135,12 +135,17 @@ function openProject(project) {
 }
 
 exports.openProject = openProject;
+exports.close = function(){
+	status = 1;
+	win.close();
+}
 
 exports.createCustomer = createCustomer;
 exports.loadCustomers = loadCustomers;
 exports.loadProjects = loadProjects;
 exports.createProject = createProject;
 exports.newRegProject = newRegProject;
+exports.getReport = getReport;
 
 /**
  * @typedef Project

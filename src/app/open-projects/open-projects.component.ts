@@ -1,4 +1,4 @@
-import { Component, ViewChildren, QueryList } from "@angular/core";
+import { Component, ViewChildren, QueryList, HostListener } from "@angular/core";
 import { RegProjectService } from '../reg-project.service';
 import { RegProjectComponent } from '../reg-project/reg-project.component';
 import { forkJoin } from 'rxjs';
@@ -10,12 +10,10 @@ import { forkJoin } from 'rxjs';
 })
 export class OpenProjectsComponent {
 	@ViewChildren(RegProjectComponent) openProjects:QueryList<RegProjectComponent>;
-	constructor(public regServ:RegProjectService) {
-		regServ.ipc.on('close', ()=>{
-			this.saveAll();
-		});
-	}
-	private saveAll(){
+	constructor(public regServ:RegProjectService) {}
+
+	@HostListener('window:beforeunload')
+	saveAll(){
 		if(this.openProjects.length){
 			const openProjects = this.openProjects.toArray();
 			const regs:Promise<boolean>[] = [];
@@ -24,10 +22,10 @@ export class OpenProjectsComponent {
 				regs.push(this.regServ.main.newRegProject(p.project, p.regs));
 			}
 			forkJoin(regs).subscribe(r => {
-				this.regServ.ipc.send('closed');
+				this.regServ.main.close();
 			});
 		}else{
-			this.regServ.ipc.send('closed');
+			this.regServ.main.close();
 		}
 	}
 	remove(i:number){

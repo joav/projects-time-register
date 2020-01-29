@@ -1,0 +1,30 @@
+<h1 mat-dialog-title>{{title}}</h1>
+<div mat-dialog-content>
+	<div *ngIf="report.type == 'custom'" [formGroup]="form">
+		<div>
+			<mat-label>Generar reporte por fecha</mat-label>
+			<mat-form-field>
+				<input matInput [matDatepicker]="dateInit" placeholder="Primera fecha" formControlName="dateInit">
+				<mat-datepicker-toggle matSuffix [for]="dateInit"></mat-datepicker-toggle>
+				<mat-datepicker #dateInit></mat-datepicker>
+			</mat-form-field>
+			<br>
+			<mat-form-field>
+				<input matInput [matDatepicker]="dateFinal" placeholder="Primera fecha" formControlName="dateFinal">
+				<mat-datepicker-toggle matSuffix [for]="dateFinal"></mat-datepicker-toggle>
+				<mat-datepicker #dateFinal></mat-datepicker>
+			</mat-form-field>
+		</div>
+		<hr>
+		<div>
+			<mat-label>Generar por cantidad de registros</mat-label>
+			<mat-form-field>
+				<input matInput type="number" name="num" formControlName="num">
+			</mat-form-field>
+		</div>
+	</div>
+	<p>Oprima el siguiente botón para descargar el informe.</p>
+</div>
+<div mat-dialog-actions>
+	<a [href]="link" [download]="download" mat-raised-button color="primary" (click)="onDownload()">Descargar</a>
+</div>

@@ -166,35 +166,38 @@ class ProjectsSDK {
 	 * @returns {Promise<RegProject[]>}
 	 */
 	getReg(dateInit = null, dateFinal = null, num = 0){
-		let query = "SELECT *, p.name as pname FROM reg_times INNER JOIN projects as p ON(p.id = project) ";
-		if((dateInit || dateFinal) && !num){
-			query += " WHERE "
-			if(dateInit && dateFinal){
-				query += " date >= '" + this.getDate(dateInit) + "' AND date <= '" + this.getDate(dateFinal) + "'";
-			}else if(dateInit){
-				query += " date >= '" + this.getDate(dateInit) + "'";
-			}else{
-				query += " date <= '" + this.getDate(dateInit) + "'";
+		return new Promise((resolve, reject) => {
+
+			let query = "SELECT reg_times.id, project, time, date, p.name as pname FROM reg_times INNER JOIN projects as p ON(p.id = project) ";
+			if(dateInit || dateFinal){
+				query += " WHERE "
+				if(dateInit && dateFinal){
+					query += " date >= '" + this.getDate(dateInit) + "' AND date <= '" + this.getDate(dateFinal) + "'";
+				}else if(dateInit){
+					query += " date >= '" + this.getDate(dateInit) + "'";
+				}else{
+					query += " date <= '" + this.getDate(dateInit) + "'";
+				}
+				query += " ORDER BY date DESC";
+			}else if(num > 0){
+				query += " ORDER BY date DESC LIMIT " + num;
 			}
-			query += " ORDER BY date DESC";
-		}else if(num > 0){
-			query += " ORDER BY date DESC LIMIT " + num;
-		}
-		this.db.all(query, (err, rows) => {
-			if(err){
-				this.log(err);
-				reject(err);
-			}else{
-				resolve(rows.map(r => ({
-					id: r.id,
-					project: {
-						id: r.project,
-						name: r.pname
-					},
-					time: r.time,
-					date: r.date
-				})));
-			}
+			this.db.all(query, (err, rows) => {
+				if(err){
+					this.log(err);
+					reject(err);
+				}else{
+					resolve(rows.map(r => ({
+						id: r.id,
+						project: {
+							id: r.project,
+							name: r.pname
+						},
+						time: r.time,
+						date: r.date
+					})));
+				}
+			});
 		});
 	}
 
@@ -203,7 +206,7 @@ class ProjectsSDK {
 	 * @param {Date} date The date
 	 */
 	getDate(date){
-		return date.getFullYear() + '-' + this.addZero(date.getMonth() + 1) + '-' + this.addZero(date.getDate());
+		return date.getFullYear() + '-' + this.addZero(date.getMonth() + 1) + '-' + this.addZero(date.getDate()) + ' 00:00:00';
 	}
 
 	addZero(num){

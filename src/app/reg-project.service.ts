@@ -3,17 +3,16 @@ import { Project } from './models/project';
 import { Customer } from './models/customer';
 import { RegTime } from './models/reg-time';
 import { Observable } from 'rxjs';
+import { RegProject } from './models/reg-project';
 
 @Injectable({
 	providedIn: "root"
 })
 export class RegProjectService {
 	main:Main;
-	ipc:Ipc;
 	constructor() {
 		this.init();
 		this.main.loadProjects().then(p => this.projects = p);
-		this.ipc = (window as any).ptrIpc;
 	}
 	projects:Project[] = [];
 	openProjects:Project[] = [];
@@ -30,9 +29,6 @@ export interface Main {
 	newRegProject:(project:Project, regs:RegTime[])=>Promise<boolean>;
 	selectDir:()=>Promise<{canceled:boolean; filePaths:string[]; bookmarks?:string[];}>
 	openProject:(project:Project)=>void;
-}
-
-export interface Ipc {
-	on(e:'close', fn:()=>void);
-	send(e:'closed');
+	getReport:(dateInit:Date, dateFinal:Date, num:number)=>Promise<RegProject[]>;
+	close:()=>void;
 }

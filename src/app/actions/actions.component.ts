@@ -5,6 +5,7 @@ import { CreateCustomerComponent } from '../boxes/create-customer/create-custome
 import { GnrlBoxComponent, Info } from '../boxes/gnrl-box/gnrl-box.component';
 import { Project } from '../models/project';
 import { CreateProjectComponent } from '../boxes/create-project/create-project.component';
+import { CreateReportComponent, ReportData } from '../boxes/create-report/create-report.component';
 
 @Component({
 	selector: 'app-actions',
@@ -51,5 +52,12 @@ export class ActionsComponent {
 			}
 		});
 	}
-	createReport(type:'day' | 'week' | 'month' | 'custom' = 'custom'){}
+	createReport(type:'day' | 'week' | 'month' | 'custom' = 'custom'){
+		this.dialog.open<CreateReportComponent, ReportData>(CreateReportComponent, {
+			data: {
+				type: type
+			},
+			disableClose: false
+		});
+	}
 }
