@@ -37,7 +37,7 @@ export class RegProjectComponent {
 			this.dialog.open<GnrlBoxComponent, Info>(GnrlBoxComponent, {
 				data: {
 					title: 'Registro guardado',
-					desc: `Se ha registrado el tiempo que ha gastado en el proyecto "${this.project.name}", con un total de ${(hours / 3600000)} horas.`
+					desc: `Se ha registrado el tiempo que ha gastado en el proyecto "${this.project.name}", con un total de ${(hours / 3600000).toPrecision(1)} horas.`
 				}
 			});
 			this.saved.emit();
