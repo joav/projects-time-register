@@ -1,7 +1,25 @@
 {
   "name": "projects-time-register",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "main": "main.js",
+  "description": "Registrar el timepo gastado en proyectos al momento de abrir el proyecto en VSCode",
+  "author": {
+	  "email": "jim.acero.valcarcel@gmail.com",
+	  "name": "joav"
+  },
+  "repository": "https://github.com/joav/projects-time-register",
+  "build": {
+	  "appId": "com.joav.projects-time-register",
+	  "asar": true,
+	  "directories": {
+		  "output": "electron-dist"
+	  },
+      "win": {
+        "target": "portable",
+        "icon":"build/icon.ico"
+      }
+  },
+  "license": "MIT",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -11,7 +29,9 @@
     "e2e": "ng e2e",
     "electron": "electron .",
     "electron-build": "ng build --prod && electron .",
-    "postinstall": "install-app-deps"
+	"postinstall": "install-app-deps",
+	"pack": "electron-builder --dir",
+    "dist": "electron-builder"
   },
   "private": true,
   "dependencies": {
